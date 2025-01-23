@@ -16,7 +16,7 @@
 			Our app offers a beautifully designed, easy-to-use interface that makes managing your book
 			collection a joy.
 		</h4>
-		<button>sign in</button>
+		<Button href="/register">Sign Up</Button>
 	</div>
 	<img class="hero-image" src={HeroImage} alt="books on a desk" />
 </section>
@@ -35,6 +35,7 @@
 	.hero-text {
 		display: flex;
 		flex-direction: column;
+		align-items: flex-start;
 		width: 55%;
 		padding-right: 50px;
 	}
