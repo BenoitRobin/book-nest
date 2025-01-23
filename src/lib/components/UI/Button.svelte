@@ -8,8 +8,9 @@
 		isMenu?: boolean;
 	}
 	interface ButtonProps extends BasicProps {
-		onclick: (e: MouseEvent) => void;
+		onclick?: (e: MouseEvent) => void;
 		href?: never;
+		type?: "submit" | "button";
 	}
 	interface LinkProps extends BasicProps {
 		href: string;
