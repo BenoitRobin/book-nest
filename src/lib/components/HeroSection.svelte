@@ -1,5 +1,7 @@
 <script lang="ts">
 	import HeroImage from '$assets/hero.png';
+
+	import { Button } from '$components';
 </script>
 
 <section class="default-margin hero">
@@ -27,14 +29,13 @@
 		margin-top: 100px;
 		margin-bottom: 80px;
 	}
-    .hero-image {
-        width: 40%;
-
-    }
-    .hero-text {
-        display: flex;
-        flex-direction: column;
-        width: 55%;
-        padding-right: 50px;
-    }
+	.hero-image {
+		width: 40%;
+	}
+	.hero-text {
+		display: flex;
+		flex-direction: column;
+		width: 55%;
+		padding-right: 50px;
+	}
 </style>
