@@ -22,6 +22,7 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
 		if (selectError && selectError.code !== 'PGRST116') {
 			return new Response('Failed to check for existing user', { status: 500 });
 		}
+
 		if (!existingUser) {
 			const { error: insertError } = await supabase
 				.from('user_names')
@@ -31,6 +32,7 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
 				return new Response('Failed to insert user name', { status: 500 });
 			}
 		}
+
 		throw redirect(303, '/private/dashboard');
 	}
 

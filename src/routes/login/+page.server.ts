@@ -49,6 +49,8 @@ export const actions = {
 
 		redirect(303, '/private/dashboard');
 	},
+
+	
 	googleLogin: async ({ locals: { supabase } }) => {
 		const { data, error } = await supabase.auth.signInWithOAuth({
 			provider: 'google',

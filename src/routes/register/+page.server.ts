@@ -62,7 +62,6 @@ export const actions = {
 		}
 
 		const userId = data.user.id;
-
 		await supabase.from('user_names').insert([
 			{
 				user_id: userId,

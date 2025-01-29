@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { AuthForm } from '$components';
 
-    let {form} = $props();
+	let { form } = $props();
 </script>
 
-<AuthForm isRegistration={true} {form}/>
+<AuthForm isRegistration={true} {form} />
