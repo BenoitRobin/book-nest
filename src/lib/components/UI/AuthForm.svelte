@@ -1,45 +1,58 @@
 <script lang="ts">
 	import { Button } from '$components';
-	import type { ActionData } from '../../../routes/register/$types';
+	import type { ActionData } from '../../../routes/login/$types';
 
 	interface ComponentProps {
 		isRegistration: boolean;
 		form: ActionData;
 	}
+
 	let { isRegistration, form }: ComponentProps = $props();
 </script>
 
 <div class="default-margin auth-container">
 	<h1 class="mb-l">{isRegistration ? 'Register' : 'Login'}</h1>
 	<div class="form-and-social-login">
-		<form class="auth-form" method="POST">
+		<form
+			class="auth-form"
+			method="POST"
+			action={isRegistration ? '' : '/login/?/signInWithPassword'}
+		>
 			{#if form && form.errors?.length}
 				{#each form.errors as error}
-					<div class="auth-error"><p>{error}</p></div>
+					<div class="auth-error">
+						<p>{error}</p>
+					</div>
 				{/each}
 			{/if}
 			{#if isRegistration}
-				<input type="text" name="name" placeholder="Name" value={form?.name || ''} />
+				<input placeholder="Name" type="text" name="name" value={form?.name || ''} />
 			{/if}
-			<input type="text" name="email" placeholder="Email" value={form?.email || ''} />
-			<input type="password" name="password" placeholder="Password" value={form?.password || ''} />
+			<input placeholder="Email" type="text" name="email" value={form?.email || ''} />
+			<input placeholder="Password" type="password" name="password" value={form?.password || ''} />
 			{#if isRegistration}
 				<input
+					placeholder="Confirm password"
 					type="password"
 					name="passwordConfirmation"
-					placeholder="Confirm password"
 					value={form?.passwordConfirmation || ''}
 				/>
 			{/if}
 			<Button type="submit">{isRegistration ? 'Register' : 'Login'}</Button>
 			{#if isRegistration}
-				<p class="auth-hint mt-s">Already have an account? <a href="/login">Log in</a></p>
+				<p class="auth-hint mt-s">
+					Already have an account? <a href="/login">Log In.</a>
+				</p>
 			{:else}
-				<p class="auth-hint mt-s">Do not have an account yet? <a href="/register">register</a></p>
+				<p class="auth-hint mt-s">
+					Do not have an account yet? <a href="/register">Log In.</a>
+				</p>
 			{/if}
 		</form>
 		<div class="social-login">
-			<!-- Ad a Button later -->
+			<form method="POST" action={isRegistration ? '/login/?/googleLogin' : '?/googleLogin'}>
+				<Button type="submit">Log in using Google</Button>
+			</form>
 		</div>
 	</div>
 </div>
@@ -48,6 +61,7 @@
 	.auth-container {
 		margin-top: 80px;
 	}
+
 	.form-and-social-login {
 		display: flex;
 	}
@@ -65,9 +79,10 @@
 		font-size: 16px;
 		color: grey;
 	}
+
 	.auth-error {
 		background-color: rgb(122, 35, 35);
-		color: #fff;
+		color: white;
 		font-size: 18px;
 		border-radius: 12px;
 		padding: 12px;
@@ -87,6 +102,7 @@
 	.auth-form input:last-of-type {
 		margin-bottom: 30px;
 	}
+
 	.social-login {
 		padding-left: 80px;
 		width: 40%;
