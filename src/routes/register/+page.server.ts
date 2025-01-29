@@ -1,17 +1,16 @@
-import { PUBLIC_FRONTEND_URL } from '$env/static/public';
 import { fail, redirect } from '@sveltejs/kit';
 
 interface ReturnObject {
 	success: boolean;
 	errors: string[];
-	email: string;
 	name: string;
+	email: string;
 	password: string;
 	passwordConfirmation: string;
 }
 
 export const actions = {
-	signInWithPassword: async ({ request, locals: { supabase } }) => {
+	default: async ({ request, locals: { supabase } }) => {
 		const formData = await request.formData();
 
 		const name = formData.get('name') as string;
@@ -21,24 +20,27 @@ export const actions = {
 
 		const returnObject: ReturnObject = {
 			success: true,
-			name,
 			email,
+			name,
 			password,
 			passwordConfirmation,
 			errors: []
 		};
 
 		if (name.length < 3) {
-			returnObject.errors.push('Name has to be at least of length 3 characters');
+			returnObject.errors.push('Name has to be at least of length 3 characters.');
 		}
+
 		if (!email.length) {
-			returnObject.errors.push('Email is required');
+			returnObject.errors.push('Email is required.');
 		}
+
 		if (!password.length) {
-			returnObject.errors.push('Password is required');
+			returnObject.errors.push('Password is required.');
 		}
+
 		if (password !== passwordConfirmation) {
-			returnObject.errors.push('Passwords do not match');
+			returnObject.errors.push('Passwords do not match.');
 		}
 
 		if (returnObject.errors.length) {
@@ -46,6 +48,7 @@ export const actions = {
 			return returnObject;
 		}
 
+		// Registration flow.
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password
@@ -58,21 +61,15 @@ export const actions = {
 			return fail(400, returnObject as any);
 		}
 
-		redirect(303, '/private/dashboard');
-	},
-	googleLogin: async ({ locals: { supabase } }) => {
-		const { data, error } = await supabase.auth.signInWithOAuth({
-			provider: 'google',
-			options: {
-				redirectTo: `${PUBLIC_FRONTEND_URL}/auth/callback`
-			}
-		});
+		const userId = data.user.id;
 
-		if (error) {
-			return fail(400, {
-				message: 'Something went wrong with Google Login'
-			});
-		}
-		throw redirect(303, data.url);
+		await supabase.from('user_names').insert([
+			{
+				user_id: userId,
+				name
+			}
+		]);
+
+		redirect(303, '/private/dashboard');
 	}
 };
