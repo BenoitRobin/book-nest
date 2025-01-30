@@ -7,3 +7,4 @@ export {default as Header} from './UI/Header.svelte';
 export {default as AuthForm} from './UI/AuthForm.svelte';
 export {default as SideNavigation} from './UI/SideNavigation.svelte';
 export {default as BookCard} from './UI/BookCard.svelte';
+export {default as StarRating} from './UI/StarRating.svelte';

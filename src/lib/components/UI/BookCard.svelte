@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Book } from '$lib/state/user-state.svelte';
+	import StarRating from './StarRating.svelte';
 
 	interface BookCardProps {
 		book: Book;
@@ -28,7 +29,7 @@
 	<div class="book-info">
 		<h4>{book.title}</h4>
 		<p class="mb-s">{book.author}</p>
-		<p>Rating: {book.rating}</p>
+		<StarRating isReadOnly={true} value={book.rating || 0} />
 	</div>
 </a>
 
@@ -40,7 +41,7 @@
 		width: 100%;
 		min-width: 360px;
 		height: 300px;
-        max-width: 450px;
+		max-width: 450px;
 		border-radius: 12px;
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		color: #fff;
@@ -48,42 +49,42 @@
 		text-align: left;
 	}
 
-    .book-cover {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-    }
+	.book-cover {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+	}
 
-    .book-cover img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 12px;
-    }
+	.book-cover img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 12px;
+	}
 
-    .book-info {
-        background: rgba(0, 0, 0, 0.4);
-        width: 100%;
-        height: 100%;
-        padding: 60px 16px 0 16px;
-        border-radius: 12px;
-    }
-    .book-info h4 {
-        font-family: 'EB Garamond', serif;
-    }
-    .book-info p {
-        font-size: 14px;
-        font-weight: 400;
-        font-style: italic;
-    }
-    .book-status {
-        position: absolute;
-        top: 16px;
-        right: 5px;
-        padding: 4px 8px;
-        width: auto;
-        background-color: rgba(4, 59, 92, 0.7);
-        border-radius: 12px;
-    }
+	.book-info {
+		background: rgba(0, 0, 0, 0.4);
+		width: 100%;
+		height: 100%;
+		padding: 60px 16px 0 16px;
+		border-radius: 12px;
+	}
+	.book-info h4 {
+		font-family: 'EB Garamond', serif;
+	}
+	.book-info p {
+		font-size: 14px;
+		font-weight: 400;
+		font-style: italic;
+	}
+	.book-status {
+		position: absolute;
+		top: 16px;
+		right: 5px;
+		padding: 4px 8px;
+		width: auto;
+		background-color: rgba(4, 59, 92, 0.7);
+		border-radius: 12px;
+	}
 </style>
