@@ -5,8 +5,6 @@
 
 	let userContext = getUserState();
 	let { user } = $derived(userContext);
-
-	$inspect(user);
 </script>
 
 <header>
