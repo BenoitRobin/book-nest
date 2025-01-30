@@ -7,7 +7,6 @@
 	let { userName, allBooks } = $derived(userContext);
 </script>
 
-
 <div class="dashboard">
 	<div class="dashboard-header mb-m">
 		<a href="/private/scan-shelf" class="add-book">
@@ -23,7 +22,18 @@
 		</div>
 	</div>
 
-<BookCategory booksToDisplay={allBooks.slice(0,10)} categoryName={'The Five books'}/>
+	<BookCategory
+		booksToDisplay={userContext.getHighestRatedBooks()}
+		categoryName={'Your favorite books'}
+	/>
+	<BookCategory
+		booksToDisplay={userContext.getUnreadBooks()}
+		categoryName={'Recently added, unread books'}
+	/>
+	<BookCategory
+		booksToDisplay={allBooks.slice(0, 10)}
+		categoryName={`Highest rated books from your favorite genre: ${userContext.getFavoriteGenre()}`}
+	/>
 </div>
 
 <style>
