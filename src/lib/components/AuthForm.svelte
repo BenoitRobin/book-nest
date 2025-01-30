@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$components';
-	import type { ActionData } from '../../../routes/login/$types';
+	import type { ActionData } from '../../routes/login/$types';
 
 	interface ComponentProps {
 		isRegistration: boolean;
