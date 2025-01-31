@@ -10,11 +10,20 @@
 	}
 
 	let { data }: BookPageProps = $props();
-
 	let book = $derived(data.book);
+	let isEditMode = $state(false);
+
+	let title = $state(book.title);
+	let author = $state(book.author);
+	let description = $state(book.description || '');
+	let genre = $state(book.genre || '');
 
 	function goBack() {
 		history.back();
+	}
+
+	function toggleEditMode() {
+		isEditMode = !isEditMode;
 	}
 </script>
 
@@ -48,6 +57,37 @@
 	{/if}
 {/snippet}
 
+{#snippet editFields()}
+	<form>
+		<input class="input input-title mt-m mb-xs" bind:value={title} type="text" name="title" />
+		<div class="input-author">
+			<p>by</p>
+			<input type="text" name="author" class="input" bind:value={author} />
+		</div>
+		<h4 class="mt-m mb-xs semi-bold">Your rating</h4>
+		<StarRating value={book.rating || 0} />
+		<p class="small-font">
+			Click to {book.rating ? 'change' : 'give'} rating
+		</p>
+		<h4 class="mt-m mb-xs semi-bold">Description</h4>
+		<textarea
+			name="description"
+			class="textarea mb-m"
+			bind:value={description}
+			placeholder="Give me a description."
+		></textarea>
+		{#if !book.finished_reading_on}
+			<Button isSecondary={true} onclick={() => console.log('Updating reading status')}
+				>{book.started_reading_on
+					? 'I finished reading this book!'
+					: 'I started reading this book'}</Button
+			>
+		{/if}
+		<h4 class="mt-m mb-xs semi-bold">Genre</h4>
+		<input type="text" name="genre" class="input" bind:value={genre} />
+	</form>
+{/snippet}
+
 <div class="book-page">
 	<button onclick={goBack} aria-label="Go back">
 		<Icon icon="ep:back" width={'40'} />
@@ -55,7 +95,19 @@
 
 	<div class="book-container">
 		<div class="book-info">
-			{@render bookInfo()}
+			{#if isEditMode}
+				{@render editFields()}
+			{:else}
+				{@render bookInfo()}
+			{/if}
+			<div class="buttons-container">
+				<Button isSecondary={true} onclick={toggleEditMode}
+					>{isEditMode ? 'Save changes' : 'Edit'}</Button
+				>
+				<Button isDanger={true} onclick={() => console.log('delete the book')}
+					>Delete book from library</Button
+				>
+			</div>
 		</div>
 		<div class="book-cover">
 			{#if book.cover_image}
@@ -70,40 +122,63 @@
 	</div>
 </div>
 
-
 <style>
-    .book-container{
-        display: flex;
-        justify-content: flex-start;
-    }
+	.book-container {
+		display: flex;
+		justify-content: flex-start;
+	}
 
-    .book-info {
-        width: 50%;
-    }
+	.book-info {
+		width: 50%;
+	}
 
-    .book-cover {
-        width: 40%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid #000;
-        border-radius: 15px;
-        min-height: 400px;
-        min-width: 350px;
-        margin-left: 80px;
-    }
+	.book-cover {
+		width: 40%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px solid #000;
+		border-radius: 15px;
+		min-height: 400px;
+		min-width: 450px;
+		margin-left: 80px;
+	}
 
-    .book-cover img{
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        border-radius: inherit;
-    }
+	.book-cover img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		border-radius: inherit;
+	}
 
-    .add-cover {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+	.add-cover {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.input {
+		padding: 8px 4px;
+		width: 100%;
+	}
+
+	.textarea {
+		width: 100%;
+	}
+
+	.input-title {
+		font-size: 60px;
+		font-weight: bold;
+		font-family: 'EB Garamond', serif;
+	}
+
+	.input-author {
+		display: flex;
+		align-items: center;
+	}
+
+	.input-author p {
+		margin-right: 8px;
+	}
 </style>
