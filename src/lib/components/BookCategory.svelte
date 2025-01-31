@@ -24,7 +24,7 @@
 		display: flex;
 		overflow-x: auto;
 		gap: 16px;
-		padding-bottom: 8px;
+		padding-bottom: 20px;
 		scrollbar-width: thin;
 	}
 

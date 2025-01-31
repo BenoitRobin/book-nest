@@ -39,7 +39,7 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-		min-width: 360px;
+		min-width: 220px;
 		height: 300px;
 		max-width: 450px;
 		border-radius: 12px;
@@ -67,11 +67,12 @@
 		background: rgba(0, 0, 0, 0.4);
 		width: 100%;
 		height: 100%;
-		padding: 60px 16px 0 16px;
+		padding: 170px 16px 0 16px;
 		border-radius: 12px;
 	}
 	.book-info h4 {
 		font-family: 'EB Garamond', serif;
+		font-size: 20px;
 	}
 	.book-info p {
 		font-size: 14px;

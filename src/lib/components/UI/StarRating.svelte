@@ -51,7 +51,7 @@
 		outline: none;
 		cursor: pointer;
 		padding: 0;
-		font-size: 32px;
+		font-size: 20px;
 		color: transparent;
 	}
 
