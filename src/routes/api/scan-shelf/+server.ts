@@ -46,7 +46,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const bookArray = [
 		{
-			bookTitle: 'Catching Fire',
+			bookTitle: 'The Hunger Games: Catching Fire',
 			author: 'Suzanne Collins'
 		},
 		{
@@ -58,12 +58,12 @@ export const POST: RequestHandler = async ({ request }) => {
 			author: 'Joseph Kessel'
 		},
 		{
-			bookTitle: 'Linge de Mesrine',
-			author: 'Pierre Bourdieu'
+			bookTitle: "L'autre Joseph",
+			author: 'Kéthévane Davrichewi'
 		},
 		{
-			bookTitle: "L'Étè des quatre rois",
-			author: 'Katharine Daventry Laurière'
+			bookTitle: "L'Ange de l'abîme",
+			author: 'Pierre Bordage'
 		},
 		{
 			bookTitle: "L'été des quatre rois",
