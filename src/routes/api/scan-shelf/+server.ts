@@ -11,65 +11,69 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	// OPENAI LOGIC
 
-	// const response = await openai.chat.completions.create({
-	// 	model: 'gpt-4o-mini',
-	// 	messages: [
-	// 		{
-	// 			role: 'user',
-	// 			content: [
-	// 				{
-	// 					type: 'text',
-	// 					text: `In the given image there will be either one or many books displayed. What you need to do is give me back a JSON and NOTHING ELSE. Please only give me back a valid json since this will be programmatically handled and it will crash if there is any other text coming back with your response.
-	//                     What I need as information is the books that you can see on the image in this form:
-	//                     {
-	//                     "bookTitle": "Harry Potter and the Deathly Hallows",
-	//                     "author": "J.K. Rowling"
-	//                     }
-	//                     Please also make sure that you return an array, even if there is only one book visible on the image.`
-	// 				},
-	// 				{
-	// 					type: 'image_url',
-	// 					image_url: {
-	// 						url: `data:image/jpeg;base64,${base64}`,
-	// 						detail: 'low'
-	// 					}
-	// 				}
-	// 			]
-	// 		}
-	// 	]
-	// });
+	const response = await openai.chat.completions.create({
+		model: 'gpt-4o-mini',
+		messages: [
+			{
+				role: 'user',
+				content: [
+					{
+						type: 'text',
+						text: `In the given image there will be either one or many books displayed. What you need to do is give me back a JSON and NOTHING ELSE. Please only give me back a valid json since this will be programmatically handled and it will crash if there is any other text coming back with your response.
+	                     What I need as information is the books that you can see on the image in this form:
+	                     {
+	                     "bookTitle": "Harry Potter and the Deathly Hallows",
+	                     "author": "J.K. Rowling"
+	                     }
+	                     Please also make sure that you return an array, even if there is only one book visible on the image.`
+					},
+					{
+						type: 'image_url',
+						image_url: {
+							url: `data:image/jpeg;base64,${base64}`,
+							detail: 'low'
+						}
+					}
+				]
+			}
+		]
+	});
 
-	// const bookArrayString = response.choices[0].message.content?.replace(/```json|```/g,"").trim();
-	// const bookArray = JSON.parse(bookArrayString || "")
+	const bookArrayString = response.choices[0].message.content?.replace(/```json|```/g, '').trim();
+	const bookArray = JSON.parse(bookArrayString || '');
 
 	// OPENAI LOGIC END
 
-	const bookArray = [
-		{
-			bookTitle: 'The Hunger Games: Catching Fire',
-			author: 'Suzanne Collins'
-		},
-		{
-			bookTitle: 'The Hunger Games',
-			author: 'Suzanne Collins'
-		},
-		{
-			bookTitle: 'Memoz',
-			author: 'Joseph Kessel'
-		},
-		{
-			bookTitle: "L'autre Joseph",
-			author: 'Kéthévane Davrichewi'
-		},
-		{
-			bookTitle: "L'Ange de l'abîme",
-			author: 'Pierre Bordage'
-		},
-		{
-			bookTitle: "L'été des quatre rois",
-			author: 'Camille Pascal'
-		}
-	];
+	// HardData start
+
+	// const bookArray = [
+	// 	{
+	// 		bookTitle: 'The Hunger Games: Catching Fire',
+	// 		author: 'Suzanne Collins'
+	// 	},
+	// 	{
+	// 		bookTitle: 'The Hunger Games',
+	// 		author: 'Suzanne Collins'
+	// 	},
+	// 	{
+	// 		bookTitle: 'Memoz',
+	// 		author: 'Joseph Kessel'
+	// 	},
+	// 	{
+	// 		bookTitle: "L'autre Joseph",
+	// 		author: 'Kéthévane Davrichewi'
+	// 	},
+	// 	{
+	// 		bookTitle: "L'Ange de l'abîme",
+	// 		author: 'Pierre Bordage'
+	// 	},
+	// 	{
+	// 		bookTitle: "L'été des quatre rois",
+	// 		author: 'Camille Pascal'
+	// 	}
+	// ];
+
+	// HardData end
 
 	return json({ bookArray });
 };

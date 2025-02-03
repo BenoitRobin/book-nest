@@ -9,6 +9,11 @@ interface UserStateProps {
 	user: User | null;
 }
 
+export interface OpenAiBook {
+	author: string;
+	bookTitle: string;
+}
+
 export interface Book {
 	author: string | null;
 	cover_image: string | null;
@@ -171,6 +176,32 @@ export class UserState {
 			this.allBooks = this.allBooks.filter((book) => book.id !== bookId);
 		}
 		goto('/private/dashboard');
+	}
+
+	async addBooksToLibrary(booksToAdd: OpenAiBook[]) {
+		if (!this.supabase || !this.user) {
+			return;
+		}
+		const userId = this.user.id;
+
+		const processedBooks = booksToAdd.map((book) => ({
+			title: book.bookTitle,
+			author: book.author,
+			user_id: userId
+		}));
+
+		const { error } = await this.supabase.from('books').insert(processedBooks);
+		if (error) {
+			throw new Error(error.message);
+		} else {
+			const { data } = await this.supabase.from('books').select('*').eq('user_id', userId);
+
+			if (!data) {
+				throw new Error('Could not retrieve all books for user.');
+			}
+
+			this.allBooks = data;
+		}
 	}
 
 	async logout() {
