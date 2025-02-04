@@ -92,10 +92,9 @@ export class UserState {
 	}
 
 	getFavoriteGenre() {
-		if (this.allBooks.length === 0) {
+		if (this.allBooks.filter((book) => book.genre).length === 0) {
 			return '';
 		}
-
 		const genreCounts: { [key: string]: number } = {};
 
 		this.allBooks.forEach((book) => {
@@ -116,7 +115,19 @@ export class UserState {
 			genreCounts[a] > genreCounts[b] ? a : b
 		);
 
-		return mostCommonGenre || null;
+		return mostCommonGenre || '';
+	}
+
+	getBooksFromFavoriteGenre() {
+		const mostCommonGenre = this.getFavoriteGenre();
+
+		return this.allBooks
+			.filter((book) => book.genre?.includes(mostCommonGenre))
+			.toSorted((a, z) => {
+				const ratingA = a.rating || 0;
+				const ratingZ = z.rating || 0;
+				return ratingZ - ratingA;
+			});
 	}
 
 	getBookById(bookId: number) {
@@ -233,6 +244,29 @@ export class UserState {
 	async logout() {
 		await this.supabase?.auth.signOut();
 		goto('/login');
+	}
+
+	async deleteAccount() {
+		if (!this.session) {
+			return;
+		}
+
+		try {
+			const response = await fetch('/api/delete-account', {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${this.session.access_token}`
+				}
+			});
+
+			if (response.ok) {
+				await this.logout();
+				goto('/');
+			}
+		} catch (error) {
+			console.log('Failed to delete account:', error);
+		}
 	}
 }
 
